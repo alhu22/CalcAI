@@ -1,0 +1,10 @@
+App service:
+Settings → Environment variables
+Click + Add
+Set the key as: WEBSITE_SKIP_RUNNING_KUDUAGENT
+Set the value as: false
+
+Configuration > Application settings
+Click + New application setting
+Name: WEBSITE_SKIP_RUNNING_KUDUAGENT
+Value: false

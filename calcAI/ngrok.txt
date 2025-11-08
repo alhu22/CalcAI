@@ -1,0 +1,16 @@
+ngrok                                                                                                       (Ctrl+C to quit)
+                                                                                                                            
+🏃 Check out ngrok-go v2 — simpler & way more powerful: https://ngrok.com/r/go-sdk-v2                                       
+                                                                                                                            
+Session Status                online                                                                                        
+Account                       Ali Reza Hussaini (Plan: Free)                                                                
+Version                       3.23.3                                                                                        
+Region                        Europe (eu)                                                                                   
+Latency                       36ms                                                                                          
+Web Interface                 http://127.0.0.1:4040                                                                         
+Forwarding                    https://fleet-escargot-together.ngrok-free.app -> http://localhost:3000                       
+                                                                                                                            
+Connections                   ttl     opn     rt1     rt5     p50     p90
+
+
+ngrok http --url=fleet-escargot-together.ngrok-free.app 3000

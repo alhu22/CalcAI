@@ -1,0 +1,3092 @@
+L1 - Software Architecture, What and Why
+
+
+Sida
+1
+av 44
+Dr. Franz Zieris
+Software Architecture
+PA1483 (HT2025)
+Software Architecture:
+What and Why?
+Software Architecture: What and Why? 1
+This lecture’s content
+1. Software architecture
+definition [T1: Sec. 1.1]
+Core concepts: [T1: Sec. 1.2]
+• Stakeholders
+• Structures
+• module str., component-and-
+connector str., allocation str.
+• Views vs. structures
+2. Architectural decisions &
+“Good” architecture
+[T1: Sec. 1.3]
+3. Importance of software
+architecture [T1: Ch. 2]
+• Quality attributes
+• Managing change
+• Stakeholder communication
+• Fundamental decisions
+Software Architecture: What and Why? 2
+1. Definition
+What is the “Software Architecture” of a system?
+Software Architecture: What and Why? 3
+Software Architecture (Definition from T1)
+The software architecture of a system is the set of
+structures needed to reason about the system.
+These structures comprise software elements,
+relations among them, and properties of both.
+Software Architecture: What and Why? 4
+[T1: Sec. 1.1]Software Architecture (Definition from T1)
+The software architecture of a system is the set of
+structures needed to reason about the system.
+These structures comprise software elements,
+relations among them, and properties of both.
+Software Architecture: What and Why? 4
+[T1: Sec. 1.1]
+Software Architecture (Definition from T1)
+The software architecture of a system is the set of
+structures needed to reason about the system.
+These structures comprise software elements,
+relations among them, and properties of both.
+Software Architecture: What and Why? 5
+[T1: Sec. 1.1]
+?
+Reasoning about a Software System
+Software Architecture: What and Why? 6
+Who cares about the system’s properties?
+Wooclap →
+Reasoning about a Software System
+Developer
+• Where to add a new feature?
+• Where to fix a bug?
+Team Lead
+• How to split the work between
+five developers?
+System Administrator
+• Can the system handle 50 times
+the load before holiday season?
+Security Auditor
+• How is information security
+guaranteed?
+Product Manager
+• When will the new feature be
+production-ready?
+Project Manager
+• How much to pay for our cloud?
+• How many engineers do we need
+when?
+...
+Software Architecture: What and Why? 7
+Who cares about the system’s properties?
+Wooclap →
+Goals and Challenges
+Product-related
+• Achieve high quality
+• Performance
+• Security
+• Reliability
+• Usability
+• ...
+Process-related
+• Deliver on time, within budget
+• Lower costs for development,
+operation, and maintenance
+• Not rely on rockstar developers
+• ...
+Software Architecture: What and Why? 8
+Software Architecture Lesson:
+“Everything all at once” is not possible. There are always trade-offs!
+• Want 100% service availability 24/7/365? Super-high operation costs!
+• Guaranteed system response within 15ms? Likely need difficult shortcuts in code!
+Software Architecture (Definition from T1)
+The software architecture of a system is the set of
+structures needed to reason about the system.
+These structures comprise software elements,
+relations among them, and properties of both.
+Software Architecture: What and Why? 9
+[T1: Sec. 1.1]
+?
+Structure: Example 1
+Developer:
+Where to fix a bug?
+• Not helpful: 150.000 lines of code in hundreds of files
+• Structure needed: some hierarchical breakdown in modules
+• E.g. “It should be in the computation component,
+in the import module, in the FileReader class, ...”
+Software Architecture: What and Why? 10
+Structure: Example 2
+Security Auditor:
+How is information security guaranteed?
+• Not helpful: All parts of the software could have full
+read/write access to the database
+• Structure needed: overview of data processing stages,
+each their access level (e.g. read-only, read/write)
+(Note: Such an overview alone does not make a system more secure,
+but it’s necessary for reasoning about its security.)
+Software Architecture: What and Why? 11
+Structure: Example 3
+System Administrator:
+Will the system handle 50 times current load?
+• Not helpful: “The system runs on servers in the cloud.”
+• Structure needed: overview of individually deployable
+system components that could be replicated or scaled
+individually
+Software Architecture: What and Why? 12
+Common Structures in Architecture
+Module Structures Component-and-Connector
+(C&C) Structures
+Allocation Structures
+Decomposition of a
+system into smaller parts
+(typically static).
+Interaction between
+runtime elements
+(typically dynamic).
+Mapping of software
+structures to non-software
+structures or resources.
+Developer:
+Where to fix a bug?
+Security Auditor:
+How is information
+security guaranteed?
+System Administrator:
+Will the system handle
+50 times the load?
+hierarchical structures, layers, class
+and data structures, ...
+data flow, service structures,
+concurrency, ...
+deployment (components to
+machines), work assignment (tasks
+to people), ...
+Software Architecture: What and Why? 13
+Examples
+Example: This course’s architecture
+What kind of structure is
+shown here?
+• Module?
+• Component & Connector?
+• Allocation?
+Software Architecture: What and Why? 14
+Wooclap →
+Example: This course’s architecture
+What kind of structure is
+shown here?
+• Module?
+• Component & Connector?
+• Allocation?
+Software Architecture: What and Why? 15
+Wooclap →
+Example: This course’s architecture
+What kind of structure is
+shown here?
+• Module?
+• Component & Connector?
+• Allocation?
+Software Architecture: What and Why? 16
+Wooclap →
+Example: This course’s architecture
+Software Architecture: What and Why? 17
+Focus: Types of activities
+For: Consistency with kursplan
+Properties: decomposition, types,
+static
+Focus: Timeline
+For: Scheduling of instances,
+planning work
+Properties: connections,
+instances (2× WS1!), dynamic
+Focus: Topic alignment
+For: Orientation for self-study
+Properties: mapping, allocation
+Software Architecture (Definition from T1)
+The software architecture of a system is the set of
+structures needed to reason about the system.
+These structures comprise software elements,
+relations among them, and properties of both.
+Software Architecture: What and Why? 18
+[T1: Sec. 1.1]
+?
+?
+Example of “Elements and Relations”:
+in a Module Structure
+Questions answered:
+• What parts exist during
+implementation?
+• How are they related?
+Further Questions:
+• Other relations between
+existing parts?
+• Other parts on the same
+level?
+• Parts on the next level?
+Software Architecture: What and Why? 19
+Example of “Elements and Relations”:
+in a Component&Connector Structure
+Questions answered:
+• What parts exist during
+runtime?
+• How are they connected?
+Further Questions:
+• Lifecycle of connections:
+How to establish, maintain,
+disconnect?
+• Connections’ properties
+(encryption, bandwidth,
+latency, fault-tolerance, ...)?
+Software Architecture: What and Why? 20
+Example of “Elements and Relations”:
+in an Allocation Structure
+Questions answered:
+• How many instances
+of which parts are
+deployed where?
+Further Questions:
+• How to deploy?
+(Webserver to
+download the
+Frontend Bundle
+from? SSH for
+database? ...)
+Software Architecture: What and Why? 21
+Example of “Elements and Relations”:
+in another Allocation Structure
+Questions answered:
+• Who can work on
+which parts of the
+source code?
+Further Questions:
+• More review duties
+needed?
+• Skill development
+needed?
+• Team too
+separated?
+Software Architecture: What and Why? 22
+Software Architecture (Definition from T1)
+The software architecture of a system is the set of
+structures needed to reason about the system.
+These structures comprise software elements,
+relations among them, and properties of both.
+Software Architecture: What and Why? 23
+[T1: Sec. 1.1]
+?
+Is this set of structures the Architecture?
+Software Architecture: What and Why? 24
+Neither! These are all views.
+Structures and Views
+• A view is a representation of one (or more) architectural structures,
+as written by and read by system stakeholders. Example:
+• A module structure: Set of the system’s modules and their hierarchical
+organization (decomposition).
+• A module view: Written documentation of that structure, e.g. following a
+template and using an agreed upon notation, that is used by some system
+stakeholders.
+• The structure exists whether or not there is a view to document it!
+Software Architecture: What and Why? 25
+Software Architecture (Definition from T1)
+The software architecture of a system is the set of
+structures needed to reason about the system.
+These structures comprise software elements,
+relations among them, and properties of both.
+Software Architecture: What and Why? 26
+[T1: Sec. 1.1]
+Note: It’s a definition, not an explanation!
+• What to do with those structures other than “reasoning”?
+• How to design those structures?
+2. Designing
+Software Architectures
+What do Software Architects need to consider when deciding on structures?
+Which techniques do they employ create a “good” software architecture?
+Software Architecture: What and Why? 27
+Job of a Software Architect
+The software architecture of a system is the set of
+structures needed to reason about the system.
+These structures comprise software elements, relations
+among them, and properties of both.
+Software Architecture: What and Why? 28
+Architect
+[T1: Sec. 1.1]
+Architectural Structures & Decisions
+Architectural Structure = a structure that supports reasoning
+about a system attribute that is important to some stakeholder:
+• functionality achieved by the system
+• the availability of the system in the event of faults
+• the difficulty of making specific changes to the system
+• the responsiveness of the system to user requests
+• ... and many others.
+Architectural Decision = a design decision that influences
+architectural structures (and, typically, system attributes)
+• usually not local in the system (change is expensive)
+Software Architecture: What and Why? 29
+Wooclap →
+Architectural Decisions?
+Software Architecture: What and Why? 30
+Notes on ambiguous items:
+Item 1: Yes! Try changing a language in a
+two-year old project ... think about the
+toolchain (IDE, compiler, test tools, etc.), the
+ecosystem (third-party libraries), and
+necessary developer skill set.
+Item 4: Yes! Sounds innocent, but can be
+hugely difficult, because you need to track
+the state, think about what “undo” even
+means in a business context (e.g., financial
+transactions, flight booking), etc.
+Item 6: Depends the level of integration and
+interface standardization. Tendency: Yes.
+Item 8: For most functions, these should be
+interchangeable. Tendency: No, purely
+technological.
+Item 9: Depends on the used functions,
+some (like S3 storage) are interchangeable.
+Tendency: Yes.
+Is there always an Architecture?
+• Yes, every system has an architecture, because:
+• it has several structures that stakeholders need to reason about its properties
+• that are the result of many explicit and implicit decisions.
+• The architecture (i.e., the structures) may not be known
+• maybe all original systems designers are long gone
+• and/or documentation has vanished (or never existed)
+Software Architecture: What and Why? 31
+Software Architecture Lesson:
+The most important part of architect’s job is to make decisions.
+Often, an explicit decision with known consequences is better than
+an implicit decision with unknown flaws.
+What is a “Good” Architecture?
+• An architecture is not inheritly “good” or “bad” – it’s more or
+less fit for purpose, in the context of specific goals.
+• An architect makes many technical & non-technical decisions
+• Identify necessary decisions to satisfy stakeholders’ needs
+• ... within organizational contstraints
+Software Architecture: What and Why? 32
+“The life of a software architect is
+a long (and sometimes painful) succession of
+suboptimal decisions made partly in the dark.”
+– Philippe Kruchten
+Wooclap →
+Fundamental Tools
+Partition
+• divide it in smaller parts,
+each will be easier to reason about
+• One system with 80k lines? or
+10 blocks with 5-15k each?
+Abstraction
+• focus on certain aspects only,
+ignore or hide the others
+• What do these 1500 lines do? or
+What is the data flow between these 5
+methods?
+Software Architecture: What and Why? 33
+Software Architecture Lesson:
+Partitioning and abstracting are a software architect’s secret weapons
+to tame complexity.
+More Tools: An Overview
+Software Architecture: What and Why? 34
+Architectural Drivers
+(business context,
+functional requirements,
+quality requirements,
+organizational constraints, ...)
+Design Concepts
+(reference architectures,
+patterns, tactics, technology, ...)
+Design Process
+cost-effective, systematic process
+to consider all relevant aspects
+Documented Structures
+(decomposition, concurrency,
+work assignment, deployment, ...)
+Architect Evaluation
+(is the design good enough?
+is the implementation?)
+Wooclap →
+3. Importance of
+Software Architecture
+Why care about Software Architecture?
+What if I don’t want to be a Software Architect?
+Software Architecture: What and Why? 35
+Importance of Software Architecture
+[T1, Ch. 2] discusses 13 (!) reasons for
+why Software Architecture is important
+1. Enable/inhibit a system’s quality
+2. Manage change
+3. Predict a system’s qualities
+4. Enhance communication
+5. Early & fundamental design
+decisions
+6. Constrain implementation
+7. Influence organizational structure
+(Conway’s law)
+8. Enable incremental development
+9. Enable cost and schedule estimates
+10. Transferable, reusable model
+11. Focus on assembly, not just creation
+12. Restrict design space, channel
+creativity
+13. Foundation for training
+Software Architecture: What and Why? 36
+1. Architecture Enables or Inhibits a
+System’s Quality [T1, Sec. 2.1]
+Observation: Systems are often replaced not because they have
+functional defects, but because they lack some qualities, e.g.:
+• too slow
+• too difficult to maintain
+• not compatible with other systems, not portable to other platforms
+Many quality attributes strongly depend on architectural decisions:
+• e.g. performance, modifiability, security, reliability, maintainability, testability, ...
+(see L2 and L3 on Quality Attributes)
+Software Architecture: What and Why? 37
+2. Architecture Manages Change
+[T1, Sec. 2.2]
+Observation: Every architecture partitions all possible future changes
+into three categories:
+• Local change: only one element needs to be touched
+• Nonlocal change: need to touch several elements
+• Architectural change: need to alter element interactions
+Effective architecture (super difficult!):
+• Most common changes are local, while architectural changes are highly
+unlikely.
+(we will come back to this in L6 on Architecture Evaluation)
+Software Architecture: What and Why? 38
+4. Architecture Enhances
+Communication [T1, Sec. 2.4]
+Observation: The same collection of source code files or real-world entities
+and concerns can be viewed in different ways by different stakeholders,
+typically using different words to talk about the same things.
+An effective architecture provides a common language in which different
+stakeholders’ concerns can be expressed, negotiated, and resolved.
+(we will discuss this in L5 on Architecture Documentation)
+Software Architecture: What and Why? 39
+5. Architecture is about Early Design
+Decisions [T1, Sec. 2.5]
+Observation: Early design decisions have enormous impact on the
+remaining development, deployment, and maintenance.
+So better be aware of architectural decisions make them explicitly rather
+dealing with the painful consequences of implicit decisions.
+(see next lectures L2 and L3 on Quality Attributes)
+Software Architecture: What and Why? 40
+Summary & Outlook
+What did we learn today?
+What’s next?
+Software Architecture: What and Why? 41
+Take-Home Messages
+Doing Software Architecture (as a discipline) is about making decisions
+• often involves making trade-offs, to satisfice (= satisfy + suffice, “good enough”) the
+needs of different business and technical stakeholders
+Decisions result a Software Architecture (of a system), i.e., in structures that define the
+system’s parts, their interactions, and their mapping to people and hardware
+• which significantly influence the system’s product- and process-related qualities
+“Tools” for creating and designing these structures:
+• Dealing with complexity in general:
+Partitioning (divide and conquer) and abstracting (hide irrelevant detail)
+• Targeting specific quality attributes of a system:
+Hundreds of reusable patterns, styles, and tactics
+Software Architecture: What and Why? 42
+Next Steps
+• Consolidate today’s session:
+• Read Ch. 1 and Ch. 2 of T1
+• Read Ch. 1 and Ch. 2 of T2
+• Group Work:
+• Find yourselves in groups (problems? get in touch!)
+• Work on the 3-week roll call
+• Read Assignment 1 in Canvas and start working on it
+(will be online soon)
+• Our next session:
+• Friday, 2025-09-05, 08:15, Multisalen: L2 “Quality Attributes”
+Software Architecture: What and Why? 43
+Questions?
+Software Architecture: What and Why? 44
+Thank you!
+
+
+
+
+Sida
+2
+av 39
+Dr. Franz Zieris
+Software Architecture
+PA1483 (HT2025)
+Quality Attributes
+This lecture’s content
+1. Software Quality
+2. Quality Attribute Scenarios
+[T1, Ch. 3]
+3. Quality Attribute Overview
+• Modifiability [T1: Ch. 8]
+• Testability [T1: Ch. 12]
+• Deployability [T1: Ch. 5]
+• Availability [T1: Ch. 4]
+• Performance [T1: Ch. 9]
+• Usability [T1: Ch. 13]
+• Security [T1: Ch. 11]
+• Development-Time vs.
+Runtime Qualities
+4. Managing Quality
+Requirements
+• Domain Concerns [T2, Ch. 5]
+• Utility Tree [T1, Sec. 19.4]
+Quality Attributes 2
+Course Orientation
+Quality Attributes 3
+Architectural Drivers
+(business context,
+functional requirements,
+quality requirements,
+organizational constraints, ...)
+Design Concepts
+(reference architectures,
+patterns, tactics, technology, ...)
+Design Process
+cost-effective, systematic process
+to consider all relevant aspects
+Documented Structures
+(decomposition, concurrency,
+work assignment, deployment, ...)
+Architect Evaluation
+(is the design good enough?
+is the implementation?)
+1. Software Quality
+What is quality?
+What is difficult about capturing quality requirements?
+Quality Attributes 4
+Stakeholders’ Quality Requirements
+Quality Attributes
+Wooclap →
+5
+Stakeholders’ Quality Requirements
+Quality Attributes
+Wooclap →
+Image source: https://iso25000.com/index.php/en/iso-25000-standards/iso-25010
+One (!) list of quality aspects of software products. There are many others.
+6
+Functional vs. Non-Functional
+Requirements
+Functional requirements
+Specify what the software system should do (functions/features)
+Non-functional requirements
+A qualification of ...
+• a functional requirement (e.g., how fast or robust), or
+• the overall product (e.g., cost of development, operation, maintenance)
+(Note: T1 says “quality attribute requirements”, T2 says “architecture characteristic”)
+Quality Attributes 7
+(most others)
+Vague Non-Functional Requirements
+• (Almost) every system is modifiable to
+some degree!
+• Wait, do you mean “modifiable” by a
+developer? Or sys-admin?
+Or end-user?
+• You can never get absolute security!
+• Wait, do you mean “secure” against
+malicious attackers? Against both write
+and read access? Or just against
+accidental data loss?
+Quality Attributes
+“The system needs to be modifiable.” “The system needs to be secure.”
+8
+Illustration of Problem
+Example: Modifiability of Canvas
+Some potential modifications
+• Student: Change a course’s display name
+• Course manager: Enable tools for a course
+• Canvas admin: Add new tools (e.g., plugins)
+• System admin: Switch from MariaDB to PostgreSQL
+• Developer: Add a new authentication mechanism
+These scenarios differ in a number of ways:
+• Who triggers the change? (different stakeholders; could also be: system itself!)
+• What is the change about? (change in appearance, functionality, performance)
+• What needs to be changed? (code, configuration, resources, data, etc.)
+• At which stage should the change be handled? (dev. time or runtime)
+• How do you define “modifiable”? (change performed within 30s, 5m, 1h, 4h, 1d)
+Quality Attributes
+Wooclap →
+Runtime
+Development Time
+Installation Time
+9
+Lots of variation →
+Need structured approach
+2. Quality Attribute Scenarios
+How to define quality attributes?
+How to capture quality requirements of stakeholders?
+Quality Attributes 10
+Example: Modifiability Scenario 1
+Quality Attributes
+[T1, Fig 3.1]
+➊ When a developer
+➋ wants to implement a new mechanism
+➌ to the authentication part of the system
+➍ during development, between two planned
+releases of the software,
+➎ they should complete the implementation
+(including testing and integration into the main
+branch)
+➏ within one workday, with code changes in
+≤ 2 packages, and without introducing any
+regressions to existing functionality.
+Developer: Add a new
+authentication mechanism
+“The system needs
+to be modifiable.”
+11
+... ...
+Example: Modifiability Scenario 2
+Quality Attributes
+[T1, Fig 3.1]
+➊ When a Canvas administrator
+➋ wants to make available a new feature
+➌ by adding it to the Canvas instance of one
+university
+➍ during operation under heavy load
+(e.g. beginning of a learning period)
+➎ they should complete the plugin installation
+➏ within one hour without interrupting the
+access to course enrollment and course
+homepages.
+Canvas Admin: Add new tools
+“The system needs
+to be modifiable.”
+12
+... ...
+Quality Attribute Scenarios
+Quality attribute scenarios are a way to specify non-functional requirements in a
+non-ambigous and measurable way.
+Quality Attributes
+[T1, Fig 3.1]
+➊ Where does it come from?
+(e.g. human, other system)
+➋ What happens?
+➌ The system, or a part of it
+➍ Circumstances (e.g. normal operation)
+➎ What should happen then?
+➏ Procedure to assess the reponse
+(is the requirement met or not?)
+13
+Quality Attribute Scenarios
+• Non-functional requirements,
+all kinds of “-ilities”
+• quantitative, measurable
+• Six-part template
+(see previous slides)
+• Owned by architect
+• Tool to communicate needs &
+perspective of many stakeholders
+Quality Attributes 14
+Sidenote: Two Related Ways to
+Capture Requirements
+User Stories
+• Functional requirements,
+functionality
+• qualitative
+• Three-part template
+(“As a <role>, I want <goal>, so that <benefit>.”)
+• Owned by product manager
+• Tool to communicate needs of end-users
+3. Quality Attribute Overview
+What are some of the most commonly relevant quality attributes?
+What is the software architect’s perspective on them?
+Quality Attributes 15
+Quality Attributes
+Selection (!) for today’s discussion:
+• Modifiability
+• Testability
+• Deployability
+• Availability
+• Performance
+• Usability
+• Security
+Quality Attributes 16
+Goal 1: Awareness, knowing that
+these concerns exist.
+Terminology note: T1 says “Quality Attributes”, T2 says “Architecture Characteristics”
+Goal 2: Understanding how they
+can become important in designing
+an architecture.
+Modifiability
+Minimizing the cost and risk of making changes.
+Quality Attributes 17[T1, Fig. 8.1]
+Each quality attribute has a central theme,
+e.g., Modifiability is all about changes.
+A Modifiability scenario:
+Architect’s Perspective:
+• What can change?
+function, platform, environment,
+quality attributes, ...
+• What is the likelihood of change?
+• When is the change made?
+Who makes the change?
+implementation time, configuration
+time, run time, ...
+• What is the cost?
+Cost upfront for making it modifiable
+& cost for the actual change
+Measures:
+• Number of affected artifacts
+• Time elapsed
+• Regressions: Other functions and
+quality attributes (negatively)
+affected
+Quality Attributes 18
+Why are those questions important?
+Because there are different solutions for those cases!
+(See next Lecture on tactics and patterns.)
+Modifiability
+Minimizing the cost and risk of making changes.
+Testability
+Increasing the effectiveness and efficiency of finding defects.
+Quality Attributes 19[T1, Fig. 12.2]
+A Testability scenario:
+Architect’s Perspective:
+• What should be testable?
+implementation units, subsystems,
+whole system, user interaction/end-
+to-end, ...
+• What should it be tested for?
+functionality, quality attributes, ...
+• Who should be performing the tests?
+developers, dedicated testers,
+product owner, end-users, ...
+• When should the tests be performed?
+continuously, at milestones,
+according to a test schedule, ...
+Measures:
+• Effort to find a defect or to achieve a
+certain coverage
+• time to perform the tests, time to
+prepare test infrastructure
+Quality Attributes 20
+Testability
+Increasing the effectiveness and efficiency of finding defects.
+Deployability
+Ensuring predictable and acceptable deployment time and effort.
+Quality Attributes 21[T1, Fig. 5.1]
+= allocation of software to
+an execution environment
+A Deployability scenario:
+Architect’s Perspective:
+• How often to deploy new versions?
+once, irregularly, yearly, daily,
+continuously, ...
+• In which environments must the software be
+deployed? How does it arrive there?
+cloud provider, on-premise, download,
+embedded software, Voyager-1, ...
+• How to deal with incoming and outgoing
+dependencies?
+acceptable downtime or service
+degradation, restart of neighbor systems
+• How complex is the deployment process?
+if its error-prone, automation becomes
+more important
+Measures: e.g., so-called DORA metrics
+• Deployment Frequency
+• Lead Time for Changes
+• Change Failure Rate
+• Time to Recover from Failure
+Quality Attributes 22
+Deployability
+Ensuring predictable and acceptable deployment time and effort.
+Availability
+Maximizing system uptime by minimizing the impact of failures.
+Quality Attributes 23[T1, Fig. 4.1]
+An Availability scenario:
+Architect’s Perspective:
+• How much uptime is needed?
+how many 9s
+• How does it vary for different load
+conditions?
+normal operation, peak usage,
+overloaded, startup/shutdown,
+maintenance
+• How should faults be handled?
+detected, logged, masked (so they don’t
+become an observable failure), repaired
+• What’s the cost of being unavailable?
+Measures:
+• 𝐴𝑣𝑎𝑖𝑙𝑎𝑏𝑖𝑙𝑖𝑡𝑦 = 𝑀𝑇𝐵𝐹
+𝑀𝑇𝐵𝐹+𝑀𝑇𝑇𝑅
+• Time to detect fault
+Quality Attributes 24
+MTBF: Mean time between failure
+MTTR: Mean time to recover
+Availability
+Maximizing system uptime by minimizing the impact of failures.
+Performance
+Optimizing handling of events to improve response times and system efficiency.
+Quality Attributes 25[T1, Fig. 9.1]
+A Performance scenario:
+Architect’s Perspective:
+• How do events arrive?
+periodically, stochastically, ...
+• Do the events have priorities?
+• What kind of responses are
+acceptable?
+successful response, error
+response, no response, ...
+• How does it vary for different load
+conditions?
+normal operation, peak usage,
+overloaded, startup/shutdown,
+maintenance, ...
+Measures:
+• Response time (min, max, avg,
+variation)
+• Percentage of satisfied requests
+• Resource consumption
+Quality Attributes 26
+Performance
+Optimizing handling of events to improve response times and system efficiency.
+Usability aspects [1]: Learnability of system features; Efficiency of task completion; Memorability
+after long pauses; Handling of user errors; Satisfaction
+Usability
+Easing task completion through enabling learning and minimizing errors.
+Quality Attributes 27[1] https://www.nngroup.com/articles/usability-101-introduction-to-usability/
+[T1, Fig. 13.1]
+A Usability scenario:
+Architect’s Perspective:
+• Who are the users of the system?
+technical, non-technical, first-time
+users, power users, ...
+• How will they interact with the system?
+graphical user interface, touch, voice,
+command line, API
+• What kind of tasks?
+common workflows, critical tasks
+under high-stress, ...
+• How often will they perform the tasks?
+frequently, quarterly, yearly, one-off,
+...
+Measures:
+• Time to learn, time to complete tasks
+• Number of errors, cost of making
+and fixing errors
+• User satisfaction
+Quality Attributes 28
+Usability
+Easing task completion through enabling learning and minimizing errors.
+Information Security (ISO 27000, Sec. 3.28):
+Confidentiality, Integrity, Availability, Authenticity, Non-Repudiation
+Security
+Protect information against attacks and other threats.
+Quality Attributes 29[T1, Fig. 11.1]
+A Security scenario:
+Architect’s Perspective:
+• What are the legitimate uses of the system?
+access from inside or outside the
+organization, roles with different access
+levels
+• From where could attacks come?
+system or human, inside or outside the
+organization, ...
+• What could be attack targets?
+read data, change/delete data, change
+behavior, reduce availability, ...
+• What needs to be protected?
+data in rest, data in transit (input or
+output of the system), system resources
+• How should attacks be handled?
+resist, detect, record, interrupt, ...
+Measures:
+• Time and accuracy of attack detection
+• Time to recover
+Quality Attributes 30
+Security
+Protect information against attacks and other threats.
+Two Categories of Quality Attributes
+Development-Time Qualities
+(how does it “feel” to develop the system?)
+• Modifiability
+• Testability
+• Deployability
+• ...
+Runtime Qualities
+(how does it “feel” to run or use the system?)
+• Availability
+• Performance
+• Usability
+• Security*
+• ...
+*) Note: We discussed security only as information
+security of production data. There are also security
+concerns during the development process!
+Quality Attributes 31
+Exercise: Which development-time and runtime
+qualities are affected by the inclusion of a
+GenAI component in a software system?
+4. Managing Quality
+Requirements
+How to elicit architecturally relevant quality requirements?
+How to maintain an overview?
+How to prioritize them?
+Quality Attributes 32
+Domain Concerns vs. Quality Attributes
+Problem: (most) stakeholders do not really care about quality attributes
+Quality Attributes 33based on [T2, Table 5.1]
+Domain Concerns Quality Attributes
+Time-to-market
+User satisfaction
+Competitive advantage
+Time and budget
+Mergers and acquisitions Interoperability
+Testability Deployability
+Performance
+Availability
+Security
+Usability
+Modifiability
+......
+?
+?
+How to Come Up with Scenarios?
+General scenarios: (potentially) applicable to any system,
+discuss with stakeholders to generate specific scenarios.
+Book T1 contains general scenarios for many quality attributes.
+Quality Attributes
+General Scenarios
+for Availability
+34
+30 seconds
+Utility Tree
+Utility tree: Top-down approach to relate stakeholders’ business drivers into quality attribute scenarios.
+Overall “goodness” (Utility) → Quality Attributes → Refinements → Quality Attribute Scenarios
+Quality Attributes
+[ATAM: Method for Archictecture Evolution (2000), Fig. 3]
+Business
+Importance
+L M H
+Technical Risk
+L
+M
+H
+1
+2
+3
+4
+5
+6 7
+8 9
+Matrix view of the scenarios’ risks and
+values (low, middle, high)
+35
+1
+2
+3
+4
+5
+6
+7
+8
+9
+Summary & Outlook
+What do we learn today?
+What’s next?
+Quality Attributes 36
+Take-Home Messages
+• Describe the desired development-time and runtime qualities of a system
+in terms of Quality Attributes (e.g., Modifiability, Performance, Security).
+• These attributes are not binary (e.g., “secure/not secure”), but have many
+different aspects which are important for architecture decision (see L3)
+• Use general quality attribute scenarios to talk with stakeholders.
+• Capture measurable requirements as specific quality attribute scenarios.
+• Use Utility trees to map business value or domain concerns to
+quality attributes and scenarios.
+Quality Attributes 37
+Next Steps
+Consolidate your understanding from today’s session:
+• On Quality Attributes in general: T1, Ch. 3 (till och med Sec. 3.3); T2, Ch. 4
+• On specific Quality Attributes: T1, Ch. 4, 5, 8, 9, 11, 12, and 13
+• (you may stop before the respective “Tactics for X” sections)
+• On Utility Trees: T1, Sec 19.4
+Assignment SAD:
+• Read the assignment text. (Which quality attributes seem relevant to you?)
+Our next Session:
+• Tuesday, 2024-09-09 13:15, J1504:
+L3 “Architectural Tactics & Patterns”
+Quality Attributes 38
+Questions?
+Quality Attributes
+Thank you!
+39
+
+
+
+Sida
+1
+av 40
+Dr. Franz Zieris
+Software Architecture
+PA1483 (HT2025)
+Architectural Tactics
+and Patterns
+1. Solutions for Modifiability
+• Coupling and Cohesion [T2, Ch. 3]
+• Architectural Tactics & Patterns [T1, Sec. 3.4]
+• Pattern: Layers [T2, Ch. 10]
+• Monolithic & Distributed Patterns [T2, Ch. 9]
+• Pattern: Client/Server [T2, Ch. 9]
+• Pattern: Broker [MT]
+• Pattern: Pipeline [T2, Ch.12]
+• Pattern: Microkernel [T2, Ch. 13]
+2. Solutions for Availability and Performance
+[T1, Ch. 4 & Ch. 9]
+• Tactic: Heartbeat
+• Tactic: Redundant Spare
+• Performance Tactics
+3. Solutions for Security and Usability
+[T1, Ch. 11 & Ch. 13]
+4. Using and Combining Patterns
+Appendix: Deployability Tactics and Patterns, incl.
+Microservices [T1, Ch. 5; T2, Ch. 18]
+MT = Bachmann, Bass & Nord (2007), Modifiability
+Tactics, Technical Report, SEI.
+This lecture’s content
+Architectural Tactics and Patterns 2
+Course Orientation
+Architectural Tactics and Patterns 3
+Architectural Drivers
+(business context,
+functional requirements,
+quality requirements,
+organizational constraints, ...)
+Design Concepts
+(reference architectures,
+patterns, tactics, technology, ...)
+Design Process
+cost-effective, systematic process
+to consider all relevant aspects
+Documented Structures
+(decomposition, concurrency,
+work assignment, deployment, ...)
+Architect Evaluation
+(is the design good enough?
+is the implementation?)
+Architect’s Toolkit:
+Solutions for Quality Requirements
+have: Quality Requirement → need: Solution
+• Modifiability → solutions A, B, C, ...
+• Security → solutions D, E, F, ...
+• Performance → solutions X, Y, Z, ...
+• ...
+Architectural Tactics and Patterns 4
+Tactics
+Patterns
+1. Achieving Modifiability
+What are solutions for solving the most common architectural concerns?
+What is an Architectural Tactic?
+What is an Architectural Pattern?
+Architectural Tactics and Patterns 51. Achieving Modifiability
+What are solutions for solving the most common architectural concerns?
+What is an Architectural Tactic?
+What is an Architectural Pattern?
+Architectural Tactics and Patterns 5
+What impedes Modifiability?
+• time to find the right place to make changes
+• number of places that need to be changed
+• number of modules that might be affected
+Technically, we want:
+• High cohesion = all elements in a module
+“belong” together
+• Low coupling = few, unidirectional, weak
+dependencies between modules
+Architectural Tactics and Patterns 6
+Modifiability
+Minimizing the cost and risk of making changes.
+[T2, Fig. 3.1]
+[T2, Fig. 9.1]
+Example: How to Improve Modifiability
+Idea: Split module by responsibility (increases cohesion → keep changes local →
+lowers risk of breaking other things while doing modifications)
+→ Such architectural ideas are called Tactics
+Architectural Tactics and Patterns 7
+algorithmsuser interface
+algorithmsuser interface
+unit of code (e.g., file, class, function)
+[T1, Sec. 8.2]
+Examples: How to Improve Modifiability (2)
+Tactic: Encapsulation
+• hide details (private)
+• Allows to change details without
+affecting dependents
+Tactic: Restrict Dependencies
+• limit what can depend on what
+• Yellow can change w/o affecting blue
+• (blue can be reused without yellow)
+Architectural Tactics and Patterns 8
+[T1, Sec. 7.3; Sec. 8.2]
+Terminology: Architectural Tactic
+Architectural Tactics and Patterns 9
+Tactic: Design decision
+that influences the
+achievement of a
+quality attribute response.
+Example:
+• Modifiability → e.g. tactic Split Module
+Note: Tactics target a single quality attribute response.
+Tactic
+[T1, Sec. 3.4]
+Grandfather of Modifiability Patterns
+(One) combination these tactics → “Layers” pattern
+Architectural Tactics and Patterns 10
++ Split Module
++ Encapsulate
++ Restrict Dependencies
+algorithms
+user
+interface
+algorithmsuser interface
+unit of code (e.g., file, class, function)
+[T1, Sec. 8.4]
+Terminology: Architectural Pattern
+Pattern: proven solution for common
+and recurring design problems.
+• Bundles multiple design decisions
+• Contains usually more than one tactic
+• Affects usually more than one
+quality attribute
+Examples:
+• Layers, Model-View-Controller,
+Client-Server, Pipes-and-Filters,
+Blackboard, Microkernel, ...
+Such a pattern consists of:
+• Problem description: Context for
+which the pattern is applicable
+• Solution description: Elements and
+relations the pattern introduces
+• Variants: detailed design decisions
+• Benefits: positive effects on
+quality attribute(s)
+• Trade-offs: negative effects on
+quality attribute(s)
+Architectural Tactics and Patterns 11
+Somewhat
+affected by
+variant
+[T1, Sec. 3.4]
+See def.
+in L1
+Layers Pattern: Explanation
+Solution:
+• Elements: modules are called “Layers”
+• Relationships: “allowed to call”, only down
+Variants:
+• Closed: Layer N can only call layer N-1
+• Open: Layer N can call lower layers directly
+Partitioning: Technical
+Deployment: Monolithic
+Examples:
+• Operating systems: Hardware, Kernel, System Calls, User Calls
+• OSI model: Physical, Data Link, Network, Transport, Application
+Architectural Tactics and Patterns 12
+[T2, Fig. 10-1]
+Layers Pattern: Discussion
+Modifiability:
+• Easy to understand, but many changes affect all layers
+(Sinkhole antipattern: Plain forwarding of UI events to
+database)
+• Good interfaces can make lower layers reusable and
+higher layers portable
+Testability:
+• Okay, because lower layers can be mocked
+Performance:
+• Not great, especially with closed layers; cannot scale up
+Deployability and Availability:
+• Bad, because it is a monolith
+Architectural Tactics and Patterns 13
+[T2, Fig. 10-1]
+Terminology:
+Monolithic vs Distributed Patterns
+Monolithic Patterns
+(= deployed on one machine)
+• Limited run-time Modifiability
+• and Availability
+• and Performance
+Distributed Patterns are more flexible
+• But: beware the Distribution Fallacies
+• Availability/Reliability: #1, #5, #8
+• Performance: #2, #3, #8
+• Security: #4
+• Modifiability: #6
+• Sustainability: #7
+Distribution Fallacies (all false)
+#1 Network is reliable
+#2 Latency is zero
+#3 Bandwidth is infinite
+#4 The network is secure
+#5 Topology never changes
+#6 There is only one administrator
+#7 Transport Cost is Zero
+#8 Network is homogenous
+Architectural Tactics and Patterns 14
+[T2, Ch. 9]
+System
+A
+B
+C
+Client-Server Pattern:
+Explanation and Discussion
+Problem: Provide functionality (service) to a variable number of consumers
+Solution:
+• Two types of components: client, servers
+• Two-stage interaction: discovery and synchronous request/response
+Variants: Thin client vs. thick client
+Benefits:
+• Independent development of client and server (development-time
+modifiability)
+• Supports a variable number of clients (run-time modifiability)
+Trade-Offs: (on top off all distribution-related trade-offs)
+• Availability, server is a single point of failure for all clients
+• Performance, server may become a bottleneck, leading to waiting times
+for clients
+• Server discovery and server run-time modifiability
+Architectural Tactics and Patterns 15
+Deployment View
+Client
+Server
+ClientClient
+Client
+Server
+Module View
+When to choose one or the other?
+Reminds you
+of something?
+Broker Pattern:
+Explanation and Discussion
+Context: system partitioned into independent components (e.g. for
+distribution and scaling)
+• Existing components: clients and servers (use or provide a service)
+• need to add/change/remove server components at run-time
+• hide location and details of server components
+Solution:
+• New component: broker
+• Servers register at broker ①
+• Broker mediates communication between clients and servers ②
+Variants: Ⓐ message passing vs. Ⓑ direct communication
+Benefits: run-time modifiability of servers & availability (at least for Ⓐ)
+Trade-Offs: performance overhead (broker becomes bottleneck for Ⓐ)
+Architectural Tactics and Patterns 16
+BrokerClient Server
+①
+②
+Ⓐ
+②
+Ⓑ
+Interaction diagram
+Other Modifiability Patterns:
+Pipelines and Microkernel
+Pipelines: Filters connected by Pipes
+Highly modular, modifiable, testable; can
+have low performance and availability
+• Examples: Bash, MapReduce, pipelines in
+R or in Python’s pandas, ...
+Microkernel: Core components and plug-in
+components, connected by core-defined
+interfaces
+Good modifiability and testability, can
+benefit performance by “unplugging”
+• Examples: Browsers, IDEs, Games, ...
+Architectural Tactics and Patterns 17
+[T2, Fig. 12-1]
+[T2, Fig. 13-1]
+2. Availability &
+Performance Patterns
+How to keep services available for their consumers?
+How to keep the responses fast?
+Architectural Tactics and Patterns 18
+Reminder: General Availability Scenario
+Three types of responses
+• Prevention
+• Detection
+• Recovery
+Architectural Tactics and Patterns 19
+Heartbeat Tactic
+(Availability, detect fault)
+Required Response: Fault Detection (e.g., in <2 sec)
+Tactic:
+• System periodically sends message (“heartbeat”) to
+a monitor (heartbeat interval, e.g. 100ms)
+• Monitor periodically checks for received messages
+(timeout interval, e.g. 1s) and reports fault if no
+heartbeat was received since last check
+Result:
+• Faults are detected within <2x timeout interval
+Architectural Tactics and Patterns 20
+MonitorSystem
+Fault
+100ms
+1s
+1s
+https://martinfowler.com/articles/patterns-of-distributed-systems/heartbeat.html
+Fault
+detectedInteraction diagram
+Redundant Spare Tactic
+(Availability, recover from fault)
+The Spare is a copy of the Primary. It takes over if and when
+the Primary fails.
+Basis for different redundancy patterns:
+• Active Redundancy (hot): Spare is running, gets
+duplicated inputs to always have same state as the
+Primary.
+• Passive Redundancy (warm): Spare is running, get
+status updates from Primary to have a similar state.
+• Spare (cold): Spare is out-of-service until the Primary
+fails.
+Architectural Tactics and Patterns 21
+SparePrimary
+Fault
+Fault
+recovered
+Other
+System
+Time out
+Note: Here, Primary and Spare are
+stateless, and Other System
+knows about the Spare.
+Interaction diagram
+Some Performance Tactics
+Caching:
+Keep multiple copies of data,
+with different access speeds
+• What to cache? For how long?
+Replication:
+Keep multiple instances for
+computation
+• How to load balance?
+Concurrency:
+Split computation
+Queuing:
+Store input events until they can
+be processed.
+• Queue size? Ignore, log, or
+notify about dropped events?
+Prioritizing:
+Drop low-priority event (or
+place them in a different queue).
+Architectural Tactics and Patterns 22
+Summary of
+Availability & Performance
+Tactics and Patterns to achieve Availability and Performance:
+• ... directly require additional elements (queue, prioritizer, ...),
+• ... or indirectly, to replicate communication paths and/or state
+Consequences of adding such elements?
+• Complicate the architecture (limited understanding, modifiability)
+• Are subject to the same distribution issues (availability, security, ...)
+Trade-off: Point of diminishing returns
+• (Do you need to have redundant load balancer for your 100 users?)
+Architectural Tactics and Patterns 23
+3. Security and Usability
+Patterns
+How to ensure information security?
+How to increase the effectiveness and efficiency of task accomplishment?
+Architectural Tactics and Patterns 24
+Reminder: General Security Scenario
+Four types of responses
+• Detect
+• Resist
+• React
+• Recover
+Architectural Tactics and Patterns 25
+Human, other
+system; inside,
+outside the
+organization
+Authorized attempt
+to display, change,
+delete data;
+change system
+behavior
+Services, data,
+resources
+Online, offline;
+fully/partial/not
+operational
+Resist access or
+manipulation, parties
+are identified, data
+and resources are
+available for
+legitimate use
+Accuracy of
+detection;
+number of
+resisted attacks;
+duration of
+recovery
+Some Security Tactics
+Resist Attacks
+Encryption: symmetric or asymmetric
+Authentication: e.g., password, certificates,
+two-factor, biometric
+Limit Access: minimize attack surface
+Detect Attacks
+Verify Message Integrity: checksums
+Anomaly Detection: e.g., timing, activity
+patterns
+React to Attack
+Revoke Access: cut off compromised parts
+Restrict Login: after too many unsuccessful
+attempts
+Inform Actors: e.g. sys-admin to take actions
+Recover from Attack
+Audit: record of actions for analysis,
+prosecution, improvement
+• Also: see Availability tactics
+(e.g., a backup is a kind of spare)
+Architectural Tactics and Patterns 26
+Cancel
+Allow to abort long-running
+processes (and free up resources)
+Undo
+Allow to revert to an earlier state
+• Requires to maintain the state
+(e.g., Memento or Command
+design pattern)
+Pause/Resume
+Allow to stop long-running processes
+(and free up resources) and continue
+them later
+• Requires to maintain intermediate states
+(e.g., using checkpoints in batch
+processing)
+Maintain System Model
+Make the system “aware” of its state
+• everything from progress bars to
+dashboard
+Some Usability Tactics
+Architectural Tactics and Patterns 27
+Think about what other quality
+attributes could benefit from these!
+4. Zooming Out
+How many patterns are there?
+Is a single pattern enough?
+How to apply patterns during the design process?
+Architectural Tactics and Patterns 28
+Architectural Tactics and Patterns 29
+T1: 10 chapters
+with 130+ tactics
+Combining Patterns
+Patterns can be combined in two ways:
+• In some cases: Orthogonal patterns (= non-conflicting concerns) can be
+applied on top of each other
+• e.g. Pipelines & Broker: one pattern is concerned with decomposing
+the system, the other with the parts’ communication
+• More typical: Dominant pattern for whole architecture and local patterns
+inside and thus isolated in components
+• e.g. Layers inside the core component of a Microkernel architecture
+30Architectural Tactics and Patterns
+How to use the Patterns
+• Process: Iterative!
+• Start with most important drivers (such as quality attribute
+requirements, or primary functionality)
+• Select a pattern, consider its variants, resolve trade-offs (e.g., by
+applying some tactics), repeat
+• More on that process in next lecture L4
+• Final architecture: result of applying many different patterns
+• But: you never consider them all at once (see L5 on Views)
+• And: you also don’t apply them all at once
+Architectural Tactics and Patterns 31
+Summary & Outlook
+What did we learn today?
+What’s next?
+Architectural Tactics and Patterns 32
+Take-Home Messages
+• Reusable design concepts
+• Tactics: single design decision, aimed at one quality attribute
+• Pattern: complex design decision, solution for a recurring type of
+problem, has variants and trade-offs
+• There are several large catalogues with hundreds of patterns
+• Architects need to develop instinctive responses which patterns are
+applicable for typical quality requirements (Need quality X? Try A!)
+• ... and have an eye on their respective trade-offs
+Architectural Tactics and Patterns 33
+Next Steps
+Consolidate your understanding from today’s session:
+• Select 3 tactics & 3 patterns and look them up in T1
+• Pick one of the catalogues (see next slide), read its table of contents, select
+two additional patterns, understand what they are for
+Assignment SAD:
+• Consider the most important quality attributes, collect some pattern and
+tactic candidates, and make sure you understand those
+Our next Session:
+• Friday, 2024-09-11 13:15, J1504:
+L4 “Organizing the Architectural Design Process”
+Architectural Tactics and Patterns 34
+Catalogues of Patterns and Tactics
+Books
+• T1: Software Architecture in Practice, 4thEd., Ch. 4-13
+• T2: Foundations of Software Architecture, 2nd Ed., Ch. 10-17
+• Patterns of Enterprise Application Architecture, Ch. 9-18
+• Pattern-Oriented Software Architecture, Vol. 4, Ch. 9-21
+Architectural Tactics and Patterns 35
+Questions?
+Architectural Tactics and Patterns
+Thank you!
+36
+Appendix
+Some additional patterns
+Architectural Tactics and Patterns 37
+Some Deployability Tactics
+For Deploying
+Scale rollouts: gradually deploy
+new version, not to all users at
+once
+Roll back: revert to old version, if
+need be
+Script deployment commands:
+Automate deployment, treat these
+scripts as source code, i.e.,
+document, test, version control
+Managing Deployed System
+Manage service interactions:
+route requests to one of many
+instances
+• similar to Replication, but here it’s
+for different software versions
+Feature toggle: kill switch,
+disable feature without
+redeploying
+• Requires a new component to “switch”
+the toggles
+Architectural Tactics and Patterns 38
+Some Deployability Patterns
+Context: Need to update n
+instances of service
+Blue/Green Deployment:
+1.create n new instances (“green”)
+2.switch traffic: blue (old ones) to green
+3.on error: switch back & remove greens,
+otherwise: remove blues
+Rolling Upgrade:
+1.create one new instance
+2.switch some traffics to new instance
+3.on error: switch back & remove new,
+otherwise: remove one old instance
+and go to step 1
+Context: Need (or want) to deploy
+components separately
+Microservice Architecture:
+• package functionality as individually
+deployable services
+• “micro”: developed by one team, small coherent
+functionality
+• communication: messages only, no directly
+shared data
+• often: REST or Apache Kafka
+• service discovery: services are not statically
+linked to their dependencies
+Architectural Tactics and Patterns 39
+Router 1 2 n
+1 2 n
+Router 1
+1 2 n
+Architectural Tactics and Patterns 40
+
+
+
+Sida
+2
+av 65
+Dr. Franz Zieris
+Software Architecture
+PA1483 (HT2025)
+The Process of
+Architecture Design
+Architectural Design Process 1
+This lecture’s content
+1. Architectural Drivers [T3SE, Ch. 2]
+• Design Purpose, Quality Attributes,
+Primary Functionality, Architecture
+Concerns, Constraints
+3. Design Contexts (greenfield vs.
+brownfield) [T3SE, Sec. 4.3]
+2. ADD: Attribute-Driven Design
+[T3SE, Ch. 4]
+1. Review Inputs
+2. Establish Iteration Goal
+3. Choose Elements to Refine
+4. Choose Design Concepts
+5. Instantiate Elements, Allocate
+Responsibilities, Define Interfaces
+6. Sketch Views, Record Decisions
+7. Analyze Design & Review Result
+Architectural Design Process 2
+T3SE
+T3
+T3
+Course Orientation
+Architectural Design Process 3
+Architectural Drivers
+(business context,
+functional requirements,
+quality requirements,
+organizational constraints, ...)
+Design Concepts
+(reference architectures,
+patterns, tactics, technology, ...)
+Design Process
+cost-effective, systematic process
+to consider all relevant aspects
+Documented Structures
+(decomposition, concurrency,
+work assignment, deployment, ...)
+Architect Evaluation
+(is the design good enough?
+is the implementation?)
+Why Architectural Design?
+Ultimate goal: predictable cost, schedule, and quality
+In particular (list is not exhaustive):
+• Fulfill the business needs
+via functionality and quality attributes (this is why we build the system)
+• Predict cost and schedule
+for development, operation, and maintenance; via work-breakdown
+structure, aligning skills, tools, technologies, and organizational structure
+• Avoid (accidental) technical debt
+a short-term productivity boost bought with long-term quality risk → see L6
+Architectural Design Process 4
+Architectural Design
+Architectural Design Process 5
+Documented Structures
+Architectural Requirements
+Architectural Documentation
+Architectural Drivers
+(e.g. functional requirements,
+quality attributes, ...)
+Design Concepts
+(tactics, patterns, ...)
+Design Process
+(e.g. decomposition, concurrency,
+work assignment, deployment, ...)
+Architect
+(considering all relevant aspects,
+cost-effective, repeatable)
+Architectural Design
+Architectural Design Process 6
+Documented Structures
+Architectural Requirements
+Architectural Documentation
+Architectural Drivers
+(e.g. functional requirements,
+quality attributes, ...)
+Design Concepts
+(tactics, patterns, ...)
+Design Process
+(e.g. decomposition, concurrency,
+work assignment, deployment, ...)
+Architect
+(considering all relevant aspects,
+cost-effective, repeatable)
+1. Architectural Drivers
+What needs to be considered for Architectural Design?
+What (beyond requirements) affects Architectural Design?
+Architectural Design Process 71. Architectural Drivers
+What needs to be considered for Architectural Design?
+What (beyond requirements) affects Architectural Design?
+Architectural Design Process 7
+Architectural Drivers
+Architectural Drivers:
+Things that need to be considered for a
+successful architecture.
+(they drive the architecture)
+Think of these as a checklist with the
+purpose of not overlooking an
+important aspect.
+Not: Is X a constraint or a concern?
+1. Design Purpose: Why are we even
+designing the specific architecture?
+2. Primary Functionality: What are
+the system’s main features?
+3. Quality Attributes: Which quality
+aspects are most important?
+4. Constraints: What are the
+boundaries in which to operate?
+5. Architecture Concerns: Any
+additional (often implicit) aspects?
+Architectural Design Process 8
+[T3SE, Sec. 2.4]
+Architectural Drivers (1):
+Design Purpose
+For what do we need this specific
+architecture design?
+• Closely related to business goals.
+Type of project:
+• Greenfield: new development
+• Brownfield: improve existing system
+• project proposal or prototype
+• mature or novel domain
+• ...
+Organizational goals:
+• design for reuse (e.g., product lines)
+• design for continuous delivery (e.g.,
+fast-paced market)
+• design for engineers’ skills
+• ...
+Architectural Design Process 9
+→ determines not only what we need to
+consider in the design, but also how
+detailed it needs to be
+(arch. design costs time and money!)
+Architectural Drivers (2):
+Primary Functionality
+Architectural Design Process 11
+A
+Functionality
+(Features)
+B
+C
+D
+E
+F
+G
+Modules
+Architect
+decides
+Engineer
+decides
+Architect
+designs
+?
+?
+Placing functionality just somewhere makes
+the system harder to maintain over time
+Functionality that is important
+enough for an architect to consider.
+Heuristic: most important 10%
+of use cases, by:
+• business-critical (value)
+• high technical difficulty
+• involving many elements
+→
+A2
+A1
+A3
+B
+C1
+C2
+Architectural Drivers (3):
+Quality Attributes
+(see L2, where we talked about scenarios and utility trees)
+Architectural Design Process 12
+[T1, Fig 3.1]
+[T3SE, Fig. 2.3]
+Architectural Drivers (4):
+Constraints
+Can be technical and non-technical, e.g.:
+• Developer availability
+(bound to other projects, on parental leave, empty job market, ...)
+• Compatibility with old technology
+(need to integrate with other accounting systems from three different decades, ...)
+• Use of certain technology
+(need to use Microsoft Azure, only MIT-licensed open-source components, ...)
+• Non-negotiable deadlines
+(first version needs to be live for the start of the next fiscal year, ...)
+• Compliance with standards and regulations
+(GDPR, all API changes need to be approved by a board, ...)
+Architectural Design Process 13
+A limitation on what can be done,
+architect has no control over them.→
+Architectural Drivers (5):
+Architecture Concerns
+General concerns: e.g. overall initial system
+structure, allocation of modules to functionality,
+deployments, updates, ..., and team topologies:
+Specific concerns: internal aspects such as
+exception handling, logging, authentication
+.
+Architectural Design Process 14
+Additional aspects, not usually
+part of formal requirements.→
+[Team Topologies (2023), Fig. 5.1]
+end-to-end,
+dev + ops
+e.g. video-codec
+tech. research
+internal services
+to help stream-teams
+→ Conscious decisions for the
+architect, so they don’t become
+haphazard decisions of engineers
+Can be trivial or complex.
+• e.g. logging to System.out or aggregate logs of
+multiple microservices
+May arise during the design process, as a result
+of other decisions.
+• e.g. add Redundancy → may need state
+management to keep copies up-to-date
+4 Common Types of Teams in Companies
+Architectural Drivers:
+Organize Backlog
+Keep a Backlog:
+• Give entries IDs for cross-referencing
+(UC-x, QA-x, CON-x, CRN-x, ...)
+• Give entries priorities (e.g., low, medium, high)
+What to check for:
+• Were important stakeholders overlooked?
+• Are there conflicting drivers with a high priority?
+This is a living document:
+• Priorities change over time
+• New drivers emerge (context changes or through
+other design decisions), some may disappear
+Architectural Design Process 15
+[T3, Sec. 5.3.1]
+Architectural Design
+Architectural Design Process 16
+Documented Structures
+Architectural Requirements
+Architectural Documentation
+Architectural Drivers
+(e.g. functional requirements,
+quality attributes, ...)
+Design Concepts
+(tactics, patterns, ...)
+Design Process
+(e.g. decomposition, concurrency,
+work assignment, deployment, ...)
+Architect
+(considering all relevant aspects,
+cost-effective, repeatable)
+2. Attribute-Driven Design
+How to give the design process some order and structure?
+How to deal with long lists of architectural drivers?
+Architectural Design Process 17
+Attribute-Driven
+Design (ADD)
+Architectural Design Process 18
+[T3, Fig. 3.1]
+Architectural
+Drivers
+Design
+Concepts
+Design
+purpose
+Primary functional
+requirements
+Quality attribute
+scenarios Constraints Architectural
+Concerns
+(Refined) Software
+Architecture Design
+Attribute-Driven Design (ADD):
+Overview of Steps
+1. Review Inputs: Prioritized drivers + any existing design
+2. Establish Iteration Goal: Subset of drivers
+3. Choose Element(s) to Refine: From existing design
+4. Choose Design Concept(s):
+Consider pros/cons of multiple tactics/patterns
+5. Instantiate Elements, Allocate Responsibilities, Define Interfaces:
+Apply tactic/pattern, make it concrete, create new elements
+6. Sketch Views, Record Decisions: Create documentation
+7. Analyze Design, Review Result: Drivers satisfied? New drivers?
+Architectural Design Process 19
+Attribute-Driven Design (ADD):
+In a Nutshell
+Iterative process, within each iteration:
+• Steps 1–3: Set iteration goal, select subset of drivers (scope)
+• Steps 4–6: Select design concepts to satisfy selected drivers
+• Step 7: Evaluate current solution (might uncover new concerns!)
+Scope of iterations
+#1 Initial system structure → architectural styles
+(or “reference architectures”)
+#2 Support primary functionality → architecture patterns
+#3..N Address remaining drivers, QA scenarios →
+patterns and tactics
+Architectural Design Process 20
+big
+small
+Design Concepts:
+Architectural Styles
+Some of the Styles in [T2, Ch. 10–18]:
+Architectural Design Process 21
+Style = high-level structure; of module
+topology, physical architecture, data topology,
+and communication pattern [T2, Ch. 9]
+Modular MonolithLayered Pipeline Microkernel
+Microservices Event-Driven
+Pipeline
+(distributed)
+n-Tiered
+(e.g. Cient/Server)
+...
+...
+Monolithic
+Distributed
+= node for a deployable unit (JAR,
+Docker container, Node app, ...)
+Deciding on an
+Architectural Style
+Q1. Homogeneity of Quality Requirements?
+• Single set of reqs.: Monolith might be enough
+• Different requirements: Distributed system
+• (there are other reasons for distributed system too)
+Q2. Data handling?
+• Who is responsible for storing and reading data?
+How is the data flowing?
+• (Monolith: typically just one database)
+Q3. Communication?
+• Synchronous is easy to implement
+• Asynchronous can be more performant and robust
+Architectural Design Process 22
+OR
+OR
+OR
+Style = high-level structure; of module
+topology, physical architecture, data topology,
+and communication pattern [T2, Ch. 9]
+[T2, Ch. 19]
+Example A – Iteration 1:
+Deciding on an Architectural Style
+Context: Small bakery; manage
+product catalog, handle online
+orders, track customer information
+Q1. No need for distributed system
+Q2. Single database (products,
+orders, customers)
+Q3. Synchronous communication
+between components (e.g., direct
+method calls)
+Candidate Pro Con
+Layered
+[T2, Ch. 10]
+easy and familiar
+style
+Technical partition, risk
+of “sinkhole” pattern
+Modular
+Monolith
+[T2, Ch. 11]
+Domain partition
+(products, orders,
+customers), good
+for splitting later
+slightly less familiar
+Microkernel
+[T2, Ch. 13]
+Extensible for later
+features (e.g., “cake
+builder” plug-in)
+Overkill for current
+requirements
+Architectural Design Process 23
+Modular MonolithLayered Microkernel
+Example A – Iteration 2:
+Applying an Architectural Pattern
+Goal: Bakery’s product catalog
+should be fast to read (QA-scenario)
+Candidate Pro Con
+Cache
+(Tactic)
+[T1, Sec. 9.2]
+Fast read from
+memory, local to
+one module
+Needs proper
+invalidation of cache on
+updates
+CQRS
+Pattern
+[T2, Ch. 20]
+High-powered
+read-only DB for
+products
+Complex pattern, might
+affect all modules,
+probably overkill
+Architectural Design Process 24
+Products OrdersCustomers
+Cache
+①
+②
+③
+Write
+DB
+Read
+DB
+QueryCommand
+Current design: Modular monolith
+Example A:
+Architecture after 2 ADD Iterations
+Satisfied drivers:
+• Overall system architecture (modular
+monolith, three modules)
+• QA-scenario: fast product reads
+(cache in Products module)
+Possible drivers for next iterations:
+• QA-scenario: protect customer data
+• New concern: When and how to
+invalidate the Products Cache?
+Architectural Design Process 25
+Products OrdersCustomers
+Cache
+(Read)
+Example B – Iteration 1:
+Deciding on an Architectural Style
+Context: Large retail chain; loyalty
+system and custom recommen-
+dations, multiple dev. teams
+Distributed style because of different
+quality requirements:
+• Loyalty: 1. need consistency, 2. relational
+database, 3. synchronous communication
+• Recommendations: 1. needs performance,
+2. real-time database, 3. asynchronous
+communication
+Candidate Pro Con
+Micro-
+services
+[T2, Ch. 18]
+Independent teams,
+tech. stack, data storage
+operational and
+management overhead
+Event-
+Driven
+[T2, Ch. 15]
+same as microservices,
+plus highly decoupled
+services
+complicated debugging
+(asynchronous flow)
+Pipelines
+[T2, Ch. 12]
+Great for data processing applicable only for
+linear workflows
+Architectural Design Process 26
+Microservices
+Event-Driven
+Pipeline
+(distributed)
+Example B – Iteration 2:
+Applying an Architectural Pattern
+Context: Loyalty system needs
+strong consistency (i.e., no missing
+or wrong “loyalty points”)
+Candidate Pro Con
+Transactional
+Database
+High consistency
+(ACID), familiarity
+Bottleneck under
+extreme load
+CQRS Pattern
+[T2, Ch. 20]
+High-powered read-
+only DB
+Eventual consistency
+only
+Event Sourcing
+[Betts et al. 2012,
+pp. 235-246]
+Fast write (append
+only), full log of
+every change
+Eventual consistency
+only, high learning
+curve for dev. team
+Architectural Design Process 27
+Write
+DB
+Read
+DB
+QueryCommand
+Loyalty
+System
+Recommen-
+dations
+REST
+Event
+Store
+Read
+DB
+Event
+Bus
+Current design: Microservices
+3. Different Design Contexts
+What is greenfield development? What is brownfield?
+How do design processes differ between these two?
+Architectural Design Process 28
+Different Design Contexts
+Architectural Design Process 29
+Greenfield, Mature Domains
+Examples: desktop applications,
+mobile apps, web-based information
+systems with relational databases
+What to do:
+• Start with reference architecture
+• Apply patterns and tactics
+• Use proven technical
+components (e.g., DB systems)
+→ Cases [T3SE, Ch. 8, T3, Ch. 4]
+Greenfield, Novel Domains
+Examples: AI/ML; 15-20 years ago:
+mobile apps
+What to do (no ref. arch., few
+existing components!):
+• Use patterns and tactics
+• Use prototypes to learn
+• May need to start from first
+principles (e.g. “modifiability →
+high cohesion and low coupling”)
+→ Cases [T3SE, Ch. 9, T3, Ch. 5]
+Brownfield
+Examples: existing system too slow,
+too insecure, not integrable, hard to
+modify, ...
+What to do:
+• Understand existing system
+(documentation, interview
+veterans, reverse engineering)
+• Refactoring: improve QAs w/o
+affecting functionality (e.g.
+reduce technical debt)
+→ Case [T3, Ch. 6]
+• Sometimes: carefully replace
+legacy system
+Summary & Outlook
+What did we learn today?
+What’s next?
+Architectural Tactics and Patterns 30
+Take-Home Messages
+• Architectural design is shaped by many technical and non-technical
+influences
+• It’s important to consider a wide array of architectural drivers: Business context
+(greenfield/brownfield, mature/novel), business constraints, organizational
+structure, ...
+• Architectural design should be done as an iterative process
+• Address drivers with highest priority and risk first
+• Make use of proven design concepts, weigh their pros and cons
+• Document rationale and the design concept’s concrete use
+• Architectural design should be done in the beginning,
+and be repeated throughout a project’s lifecycle
+Architectural Tactics and Patterns 31
+Next Steps
+Consolidate your understanding from today’s session:
+• Read T3SE, Ch. 2 to Ch. 4
+• Skim through one of the five case studies
+(T3, Ch. 4, Ch. 5 or Ch. 6; T3SE, Ch. 8 or Ch. 9)
+Assignment SAD:
+• See how the assignment tasks map to the ADD steps
+• Book a Q&A slot for next week (if you want)
+Our next Sessions:
+• L5 “Documenting Architecture” – Thursday, 2025-09-18 13:15, J1504
+• W1 “Architectural Katas” odd groups (1, 3, 5, ...) – Wed, 2025-09-17 13:00, C335/336
+even groups (2, 4, 6, ...) – Frid, 2025-09-19 13:00, H313
+Architectural Tactics and Patterns 32
+T3SE
+T3
+T3
+Questions?
+Architectural Tactics and Patterns
+Thank you!
+33
+Bonus:
+ADD Steps in Detail
+Architectural Design Process 34
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 1: Review Inputs
+Inputs:
+• Architectural Drivers (prioritized)
+• Any existing Architecture Design
+What to check for:
+• Were important stakeholders overlooked?
+• Have business conditions changed since
+prioritization?
+Result:
+Put in Architectural Design Backlog →
+Architectural Design Process 35
+[T3, Sec. 5.3.1]
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 2: Establish Iteration Goal
+Set goal for current iteration, to address a subset of drivers
+Examples for early iterations (and the kind of drivers they address):
+• Establish an overall system structure (general concern)
+• Identify structures for primary functionality (functionality)
+Examples for later iterations:
+• Support quality attribute scenario QA-3: Management system resumes
+operation after failure within 30 seconds (quality attribute)
+Architectural Design Process 36
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 3: Choose Element(s) to Refine
+Select existing element(s) to improve in order to satisfy selected drivers.
+Some common types of refinements:
+• Decomposition: →
+• Combination: →
+• Improvement: →
+Example for early iterations:
+• Only 1 element to choose from: The system. Refine by decomposition.
+Example for later iterations:
+• Availability scenario applies to App Server and Database. Refine both by improvement.
+Architectural Design Process 37
+Think: In which context
+could it be reasonable to
+combine existing elements?
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 4: Choose Design Concept(s)
+Difficult: Dozens of patterns and hundreds of tactics exist
+Important: Do not reinvent the wheel.
+• Use existing best practices
+• Use your own knowledge and
+experience
+• Use knowledge and experience of
+others
+Consider alternatives with pros and cons, provide a rationale for your choice.
+Architectural Design Process 38
+[T3SE, Table 4.1]
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 5: Instantiate Elements,
+Allocate Responsibilities, Define Interfaces
+Applying a design concept, making it concrete, creates new structures
+• Identify the concrete the elements and their relations
+• Assign responsibilities to elements
+• Define interfaces along their relations: externally visible properties that establish a contract
+for elements to collaborate and exchange information
+Example:
+Design concept layers (a pattern that introduces a module structure). Now:
+• How many layers for your system?
+• What are their names? What are their respective jobs?
+• How do they communicate? How do their interfaces look like?
+Architectural Design Process 39
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 6: Sketch Views, Record Decisions
+• Make your ad-hoc whiteboard sketches
+permanent, preserve them, refine them
+for later communication.
+• (see L5)
+• Record decisions, their rationale, and
+trade-offs.
+“Most diagrams only make sense to those who
+witnessed its creation.”
+– A colleague
+Architectural Design Process 40
+https://twitter.com/justinhendrix/status/1594031025658675202
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 7: Analyze Design & Review Result
+Ask yourself:
+• Does the result achieve the iteration goal?
+• What are the effects for each of the drivers?
+Review with the help of others!
+Now: Iterate!
+Go back to Step 2 if necessary and possible
+• Necessary? Risk-based: How big is the risk of not
+addressing the other drivers?
+• Possible? Time and resources are limited.
+Prioritization!
+Architectural Design Process 41
+Not
+Addressed
+Partially
+Addressed
+Completely
+Addressed
+Decisions
+Made
+UC-1 ...
+UC-2 ...
+UC-3 ...
+QA-1 ...
+QA-2 ...
+CON-1 ...
+CON-2 ...
+CRN-1 ...
+CRN-2 ...
+Example of tracking design progress:
+Drivers as cards, moving from left to right
+Bonus:
+Detailed ADD Case Study
+How does an architecture design process look in practice?
+How much happens in each step?
+Architectural Design Process 42
+Now: Case Study “FCAPS” System
+Context: Telecommunication system, synchronization is critical
+• Need to monitor ~100 of time servers:
+• When to send a technician to reboot/repair?
+• Performance monitoring: How well are regions doing (e.g. delay, jitter)?
+So-called “FCAPS” system:
+• Management of Fault, Configuration, Accounting, Performance,
+Security
+Warning: There are lots of details on the following slides.
+Those are meant for illustration, not full comprehension.
+Architectural Design Process 43
+[T3, Ch. 4]
+(pp. 75-105)
+Case Study Color Code on the Slides
+Arch. Drivers
+Design Concepts
+New Structures
+Existing Elements
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+Case Study: Iteration 1
+ADD Step 1: Review Inputs
+Design Purpose:
+• Greenfield in mature domain
+• Need sufficiently detailed design to support construction
+Primary Functionality: 11 use cases, 3 of which are primary
+• UC-1 (network monitoring), UC-2 (fault detection), UC-7 (performance data collection)
+Quality Attributes: 6 scenarios, 4 of which are rated HIGH
+• QA1 Performance: 100% of trap signals are recorded (even w/ peak load) H/H
+• QA2 Modifiability: New Timeserver management protocol without changes in core H/M
+• QA3 Availability: Mgmt system failure, operational after 30 seconds H/H
+• QA4 Performance: Collect performance data during peak time within 5 minutes H/H
+Constraints: 6 (e.g. minimum of 50 users, access through web browser, reliable connection)
+Concerns: 3 (e.g. need overall system structure, allocate work to team members)
+Architectural Design Process 44
+Context
+Diagram
+[T3, Fig. 4.2]
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 2: Establish Iteration Goal
+Iteration 1: Design overall system structure
+Affected Drivers:
+• Overall system structure (CRN-1)
+• Network monitoring (UC-1)
+• Performance, Availability,
+Modifiability (QA-1, QA-2, QA-3, QA-4)
+• Web browser access (CON-2),
+reuse existing database (CON-3)
+• Leverage team’s Java proficiency (CRN-2)
+Architectural Design Process 45
+Context
+Diagram
+[T3, Fig. 4.2]
+Case Study: Iteration 1
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 3: Choose Element(s) to Refine
+Trivial choice: Refine FCAPS systems through decomposition
+Architectural Design Process 46
+Context
+Diagram
+[T3, Fig. 4.2]
+Case Study: Iteration 1
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 4: Choose Design Concept(s)
+1. Three-tier deployment (a deployment pattern)
+• Client tier: Accessible via web browser (CON-2)
+• Database tier: Re-use existing database (CON-3)
+2. Client: Rich Client Application
+(a reference architecture)
+• Better display options in desktop software† (UC-1)
+3. Server: Service Application (a reference architecture)
+4. Java Swing† and Java Web Start† for Client
+(externally developed components)
+Architectural Design Process 47Client
+Tier
+Web App
+Tier
+Database
+Tier
+Client
+Presentation
+Business
+Data
+Local
+Data
+Source
+Other
+Systems
+Server
+Services
+Business
+Data
+Other
+Systems
+Consumer
+†Note: This project is from 2006. Some technology is now deprecated.
+➊
+➋
+➌
+➍
+➊
+➋ ➌
+Case Study: Iteration 1
+Client
+Tier
+Web / App
+Tier
+Database
+Tier
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 5: Instantiate Elements,
+Allocate Responsibilities, Define Interfaces
+Instantiate Elements
+• Client: No local data sources
+• Because connection is considered reliable (CON-4)
+• (rest according to reference architecture)
+Allocate Responsibilities
+• Client becomes Server’s “Consumer”,
+Server becomes Client’s “Other System”
+• App Server: Module for time server access in data layer
+• (rest according to reference architecture)
+Define Interfaces
+• App Server – Database: JDBC
+• App Server – Time Servers: SNMP
+Architectural Design Process 48
+Client
+Presentation
+Business
+Data
+Local
+Data
+Source
+App Server
+Services
+Business
+Data
+Time
+Servers
+Database
+JDBC SNMP
+➊
+➊
+➋
+➋
+➌
+➌
+➎ ➍
+➍
+➎
+Case Study: Iteration 1
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 6: Sketch Views, Record Decisions
+Architectural Design Process 49
+[T3, Figs. 4.3, 4.4]UML deployment diagram
+UML package diagram
+... and a short description for each of the boxes
+and lines contained within these diagrams!
+Case Study: Iteration 1
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 7: Analyze Design & Review Result
+Completed:
+• Overall architecture (CRN-1)
+• Leverage team’s Java proficiency (CON-2)
+• Keep existing database (CON-3)
+Partially addressed: many others
+Architectural Design Process 50UC-1
+UC-2
+UC-
+A-1
+A-2
+A-3
+A-
+CON-1
+CON-2
+CON-3
+CON-
+CON-
+CON-
+C N-1
+C N-2
+C N-3
+Not Part. Cmpl.
+Case Study: Iteration 1
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 2: Establish Iteration Goal
+Iteration 2: Identify structures for primary functionality
+Affected Drivers:
+• Primary use cases (UC-1, UC-2, UC-7)
+• Allocation of work to development team members (CRN-3)
+Architectural Design Process 51
+Case Study: Iteration 2
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 3: Choose Element(s) to Refine
+Choice:
+Select Layers in Client and App Server, to be refined by decomposition.
+Architectural Design Process 52
+Client
+Presentation
+Business
+Data
+App Server
+Services
+Business
+Data Time
+Servers
+Database
+Case Study: Iteration 2
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 4: Choose Design Concept(s)
+1. Domain Objects (an architectural pattern)
+• Identify units of functionality for each use case
+2. Decompose Domain Objects into Components
+• Split according to layers
+Architectural Design Process 53
+Case Study: Iteration 2
+View
+Layer
+[Domain Object: POSA Vol. 4]
+Domain Object A
+UC-x UC-y
+A-View
+A-Controller
+DataMapper
+Controller
+Layer
+Data
+Layer
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step : Instantiate Elements,
+Allocate Responsibilities, Define Interfaces
+Instantiate Elements & Allocate Responsibilities
+1. Overall nine Domain Objects (e.g. “Network Monitoring” or
+“Event History”), each responsible for one or two use cases
+2. Architect identifies components on each layer for primary
+use cases UC-1 and UC-2
+• (A colleague will later do the same for the other use cases.)
+Define Interfaces
+3. Architect uses sequence diagrams to illustrate interaction
+of the components involved in primary uses cases
+Architectural Design Process 54
+Case Study: Iteration 2 «domain object»
+Network Monitoring «domain object»
+Fault Detection
+UC-1 UC-2
+UC-1: Technician monitors network status
+UC-2: FCAPS detects faults (part of status)
+see next slide
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 5: Instantiate Elements,
+Allocate Responsibilities, Define Interfaces
+Architectural Design Process 55
+Client Server
+Time
+Servers
+Database
+TimeServer
+Connector
+Request
+Manager
+Request
+Service
+Case Study: Iteration 2 «domain object»
+Network Monitoring
+UC-1
+Presentation
+Layer
+Business
+Layer
+Data
+Layer
+Services
+Layer
+Business
+Layer
+Data
+Layer
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+UC-1
+ADD Step 5: Instantiate Elements,
+Allocate Responsibilities, Define Interfaces
+Architectural Design Process 56
+Client Server
+Time
+Servers
+Database
+TimeServer
+Connector
+NetworkMonitoring
+View
+NetworkMonitoring
+Controller
+Request
+Manager
+Request
+Service
+Topology
+Controller
+Data
+Mapper
+get()
+get()
+getRegions()
+getTopology()
+Case Study: Iteration 2 «domain object»
+Network Monitoring
+UC-1
+request()
+Presentation
+Layer
+Business
+Layer
+Data
+Layer
+Services
+Layer
+Business
+Layer
+Data
+Layer
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+UC-1
+UC-2
+ADD Step 5: Instantiate Elements,
+Allocate Responsibilities, Define Interfaces
+Architectural Design Process 57
+Client Server
+Time
+Servers
+Database
+TimeServer
+Connector
+NetworkMonitoring
+View
+NetworkMonitoring
+Controller
+Request
+Manager
+Request
+Service
+Topology
+Controller
+Data
+Mapper
+TimeServer
+Controller
+addListener()
+notify()
+publish()
+get()
+get() update()
+getRegions()
+getTopology()
+Case Study: Iteration 2 «domain object»
+Network Monitoring
+«domain object»
+Fault Detection
+UC-1 UC-2
+request()
+Presentation
+Layer
+Business
+Layer
+Data
+Layer
+Services
+Layer
+Business
+Layer
+Data
+Layer
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 6: Sketch Views, Record Decisions
+• Domain objects (UML package
+diagram, top left)
+• Components across the layers
+(UML package diagram, right)
+• Interactions of components through
+interfaces (UML sequence diagram,
+bottom left)
+• Work assignment matrix of
+components to team members
+(not shown)
+Architectural Design Process 58
+[T3, Figs. 4.6, 4.7, 4.8]
+Case Study: Iteration 2
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 7: Analyze Design & Review Result
+Completed:
+• Primary functionality (UC-1, UC-2, UC- )
+• Work assignment matrix (C N-3)
+Newly recognized:
+• C N- : Unit-test majority of modules
+Architectural Design Process 59UC-1
+UC-2
+UC-
+A-1
+A-2
+A-3
+A-
+CON-1
+CON-2
+CON-3
+CON-
+CON-
+CON-
+C N-1
+C N-2
+C N-3
+Not Part. Cmpl.
+C N-
+Case Study: Iteration 2
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 2: Establish Iteration Goal
+Iteration 3: Management system should resume operation after a
+failure within 30 seconds.
+Affected Drivers:
+• Availability Scenario ( A-3)
+Architectural Design Process 60
+Case Study: Iteration 3
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 3: Choose Element(s) to Refine
+Refine App Server through Improvement
+Architectural Design Process 61
+Client App
+Server
+Time
+Servers
+Database
+Deployment
+Diagram
+Tier 1 Tier 2 Tier 3
+Time
+Servers
+Clients
+Case Study: Iteration 3
+* 1 11
+1
+*
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 4: Choose Design Concept(s)
+1. Active Redundancy (an architectural pattern)
+2. Passive Redundancy (an architectural pattern)
+3. Use an Intermediary (an architectural tactic)
+Architectural Design Process 62
+Case Study: Iteration 3
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 5: Instantiate Elements,
+Allocate Responsibilities, Define Interfaces
+• Active redundancy for App Server
+• Introduces new elements: 2nd App Server
+and Load Balancer
+• Add intermediary between App Server
+and Time Servers (a queue):
+Event Receiver
+• Not shown here:
+• Use passive redundancy for Load Balancer,
+Event Receiver, and Database
+• Define interfaces between new elements
+Architectural Design Process 63
+Client
+Time
+Servers
+Tier 1 Tier 2 Tier 3
+Time
+Servers
+Clients App
+Server
+Load
+Balancer
+Event
+Receiver
+Deployment
+Diagram
+Case Study: Iteration 3
+➊
+➊
+➊
+➋
+➋ App
+Server Database
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 6: Sketch Views, Record Decisions
+• Amended Deployment Diagram
+(UML deployment diagram)
+• Interactions of new components
+through interfaces
+(UML sequence diagram)
+Architectural Design Process 64
+[T3, Fig. 4.10]
+[T3, Fig. 4.11]
+Case Study: Iteration 3
+Review Inputs Set Goal, Select
+Drivers
+Choose Elements
+to Refine
+Choose Design
+Concepts
+Instantiate
+Elements
+Sketch Views,
+Record Decisions Assess Result
+ADD Step 7: Analyze Design & Review Result
+Completed:
+• None (because technology choice for event
+queue is still open)
+Newly recognized:
+• C N- : Manage state in replicas
+• (for passive redundancy in Event Receiver, Load
+Balancer, and Database)
+Architectural Design Process 65UC-1
+UC-2
+UC-
+A-1
+A-2
+A-3
+A-
+CON-1
+CON-2
+CON-3
+CON-
+CON-
+CON-
+C N-1
+C N-2
+C N-3
+Not Part. Cmpl.
+C N-
+C N-
+Case Study: Iteration 3
+End of Case Study
+Three iterations:
+1. Overall system architecture
+2. Consider primary functionality and work allocation matrix
+3. Focus on one quality attribute scenario for Availability
+Some highlights:
+• Discovered new concerns along the way
+• Technological decisions throughout
+Architectural Design Process 66
+Case Study: End
+
+

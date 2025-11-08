@@ -1,0 +1,646 @@
+<%- include('../partials/header') %>
+
+<style>
+  .home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 90%;
+  }
+  .upload-wrapper {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 50px auto;
+  }
+
+  .upload-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: black;
+    display: flex;
+    flex-direction: column; /* ✅ stack icon above text */
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    font-weight: bold;
+    transition: background 0.3s;
+    border: none;
+    font-size: 40px;
+    text-align: center; /* ✅ make text center-aligned */
+    padding: 10px;
+  }
+
+
+  .upload-circle:hover {
+    background: rgb(230, 227, 227);
+  }
+
+  .upload-spinner {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border: 8px solid transparent;
+    border-top: 8px solid rgb(74, 61, 61);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    display: none;
+  }
+
+  /* card */
+  .card {
+  background: #d5d5e6;
+  color: white;
+  width: 90%;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  font-family: sans-serif;
+  margin-top: 50px;
+}
+
+  .tabs {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: black;
+  }
+
+  .tab {
+    opacity: 0.6;
+    cursor: pointer;
+  }
+
+  .tab.active {
+    font-weight: bold;
+    opacity: 1;
+    position: relative;
+  }
+
+  /* .tab.active::after {          // puts a dot under the active tab
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    background: black;
+    border-radius: 50%;
+  } */
+
+  .card-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .calories-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .calories {
+    font-size: 36px;
+    font-weight: bold;
+    color: #191817; /* Customize color */
+  }
+
+  .label {
+    font-size: 30px;
+    color: #363535;
+    margin-top: 4px;
+  }
+
+  .circle-container {
+    width: 80px;
+    height: 80px;
+    position: relative;
+  }
+
+  .circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 8px solid #444;
+    border-top: 8px solid white; /* Progress */
+    box-sizing: border-box;
+    transform: rotate(135deg); /* Customize angle here */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .center-icon {
+    transform: rotate(-135deg);
+    font-size: 18px;
+  }
+
+  /* Macro cards */
+  .macro-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+  .macro-card {
+    background: #1c1c24;
+    color: white;
+    width: 250px;
+    height: 250px;
+    padding: 16px 12px;
+    border-radius: 50px;
+    text-align: center;
+    font-family: sans-serif;
+    box-shadow: 0 0 6px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .macro-amount {
+    font-size: 40px;
+    font-weight: bold;
+  }
+
+  .macro-label {
+    font-size: 25px;
+    color: #bbb;
+    margin-top: 2px;
+  }
+
+  .over {
+    color: #ff7f7f;
+    font-weight: bold;
+  }
+
+  .macro-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 5px solid #333;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .macro-icon {
+    font-size: 30px;
+  }
+
+  .macro-circle.red {
+    border-top-color: #ff5c5c;
+    transform: rotate(90deg);
+  }
+  .macro-circle.orange {
+    border-top-color: #ffaf5f;
+    transform: rotate(70deg);
+  }
+  .macro-circle.blue {
+    border-top-color: #5faaff;
+    transform: rotate(40deg);
+  }
+
+
+  .center-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 12px;
+  z-index: 1000;
+  width: 75%;
+}
+
+.center-container video {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.hidden {
+  display: none;
+}
+
+.capture-button {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  color: black;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  z-index: 1100;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+}
+
+
+/* latest nutrition */
+.nutrition-card {
+  width: 100%;
+  margin: 10px auto;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  text-align: center;
+  background: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.food-img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.food-title {
+  margin: 5px 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.nutrition-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.stat {
+  background: #f7f7f7;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.label {
+  display: block;
+  font-size: 20px;
+  color: #555;
+}
+
+.value {
+  font-size: 20px;
+  font-weight: bold;
+  color: #222;
+}
+
+
+
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Hide file inputs */
+  input[type="file"] {
+    display: none;
+  }
+
+  @media (max-width: 480px) {
+    .upload-circle {
+      font-size: 5vw;
+    }
+
+    .upload-spinner {
+      width: 8vw;
+      height: 8vw;
+    }
+
+    
+  }
+</style>
+
+<div class="home">
+  <div class="card">
+    <div class="tabs">
+      <span class="tab active">Today</span>
+      <!-- <span class="tab">Yesterday</span> -->
+    </div>
+
+    <div class="card-content">
+      <div class="calories-info">
+        <div class="calories"><%= Math.round(userData.calories_need - userData.calories) %></div>
+        <div class="label">Calories left</div>
+      </div>
+      <div class="circle-container">
+        <div class="circle">
+          <div class="center-icon">🔥</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="macro-cards">
+    <!-- Protein -->
+    <div class="macro-card">
+      <div class="macro-amount"><%= Math.round(userData.protein_need - userData.protein_g) %> g</div>
+      <div class="macro-label">Protein <span class="over">left</span></div>
+      <div class="macro-circle red">
+        <div class="macro-icon">⚡</div>
+      </div>
+    </div>
+
+    <!-- Carbs -->
+    <div class="macro-card">
+      <div class="macro-amount"><%= Math.round(userData.carbs_need - userData.carbs_g) %> g</div>
+      <div class="macro-label">Carbs left</div>
+      <div class="macro-circle orange">
+        <div class="macro-icon">🌾</div>
+      </div>
+    </div>
+
+    <!-- Fats -->
+    <div class="macro-card">
+      <div class="macro-amount"><%= Math.round(userData.fat_need - userData.fat_g) %> g</div>
+      <div class="macro-label">Fats left</div>
+      <div class="macro-circle blue">
+        <div class="macro-icon">💧</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="center-container" class="center-container hidden">
+    <video id="camera-preview" autoplay playsinline style="width: 100%; height: auto;"></video>
+    <button id="capture-button" class="capture-button"></button>
+  </div>
+
+  
+
+
+
+
+  <div class="button-container">
+    <!-- Nutrition Form -->
+    <!-- <form id="nutrition-form" action="/nutrition" method="POST" enctype="multipart/form-data"> -->
+      <!-- <input type="file" id="nutrition-image" name="image" accept="image/*" required /> -->
+      <!-- <input type="hidden" name="type" value="nutrition" /> -->
+      <div class="upload-wrapper">
+        <button type="button" class="upload-circle" id="nutrition-button">
+          <i class="fas fa-bowl-food fa-3x"></i>
+          Scan food
+          <div class="upload-spinner" id="nutrition-spinner"></div>
+        </button>
+      </div>
+  
+  </div>
+  <div class="latest-nutrition">
+    <!-- <img src="/images/captured.jpg" alt="Captured Image" class="captured-img" />
+    <h3>hello</h3> -->
+    <div id="latest-nutrition-data" class="latest-nutrition-data">
+      <div class="nutrition-card">
+      
+      <h3 class="food-title">Last Nutrition</h3>
+
+      <img src="/images/captured<%= userId %>.jpg" alt="Food Image" class="food-img" />
+
+      <div id="nutrition-stats" class="nutrition-stats">
+        <div id="stat" class="stat">
+          <span class="label">Protein</span>
+          <span class="value"><%=data.protein_g %> g</span>
+        </div>
+        <div id="stat" class="stat">
+          <span class="label">Calories</span>
+          <span class="value"><%=data.calories %> kcal</span>
+        </div>
+        <div id="stat" class="stat">
+          <span class="label">Carbs</span>
+          <span class="value"><%=data.carbs_g %> g</span>
+        </div>
+        <div id="stat" class="stat">
+          <span class="label">Fat</span>
+          <span class="value"><%=data.fat_g %> g</span>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  
+  document.getElementById('nutrition-button').addEventListener('click', async function () {
+
+    // Show the container
+    const container = document.getElementById('center-container');
+    container.classList.remove('hidden');
+
+    // Start camera
+    navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: { exact: "environment" }
+        }
+      })
+      .then((stream) => {
+        const video = document.getElementById('camera-preview');
+        video.srcObject = stream;
+      })
+      .catch((err) => {
+        console.error('Error accessing rear camera:', err);
+        alert('Rear camera not available or permission denied.');
+      });
+
+
+    // Initialize Quagga
+    Quagga.init({
+      inputStream: {
+        name: "Live",
+        type: "LiveStream",
+        target: document.getElementById('camera-preview'),
+        constraints: {
+          facingMode: { exact: "environment" }
+        }
+      },
+      decoder: {
+        readers: ["ean_reader", "ean_8_reader", "code_128_reader", "code_39_reader", "upc_reader", "upc_e_reader"]
+      }
+      }, function(err) {
+        if (err) {
+          console.error(err);
+          alert('Error initializing scanner.');
+          return;
+        }
+        Quagga.start();
+        console.log('Scanner initialized');   
+    });
+  
+    // Handle detected barcodes
+    Quagga.onDetected(function(data) {
+      const barcode = data.codeResult.code;
+      console.log('Barcode detected:', barcode);
+
+      // Stop the camera and scanner
+      Quagga.stop();
+      const video = document.getElementById('camera-preview');
+      const stream = video.srcObject;
+      if (stream) {
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      video.srcObject = null;
+      container.classList.add('hidden');
+
+      // background color the same as before (black)
+      const spinner = document.getElementById('nutrition-button');
+      spinner.style.backgroundColor = 'black';
+      
+      
+
+      // Send the barcode to the server and do not wait for a response
+      fetch('/scanner', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ barcode: barcode })
+      })
+    
+    });
+  });
+
+
+  //   // stop the camera and scanner
+  //   // Quagga.stop();
+  //   // const video = document.getElementById('camera-preview');
+  //   // const stream = video.srcObject;
+  //   // if (stream) {
+  //   //   const tracks = stream.getTracks();
+  //   //   tracks.forEach(track => track.stop());
+  //   // }
+  //   // video.srcObject = null; 
+  //   // container.classList.add('hidden');
+  // });
+
+  document.getElementById('capture-button').addEventListener('click', () => {
+  const video = document.getElementById('camera-preview');
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  // Dark overlay for feedback
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  const capturedImgContainer = document.querySelector('.latest-nutrition');
+
+  // ✅ Only replace or update the image
+  let capturedImg = capturedImgContainer.querySelector('img');
+  if (!capturedImg) {
+    capturedImg = document.createElement('img');
+    capturedImg.style.width = '100%';
+    capturedImg.classList.add('captured-img');
+    capturedImgContainer.prepend(capturedImg);
+  }
+  capturedImg.src = canvas.toDataURL('image/jpeg', 0.95);
+  capturedImg.style.transition = 'filter 0.5s ease';
+  capturedImg.style.filter = 'brightness(50%)';
+
+  
+  canvas.toBlob(blob => {
+    const userId = "<%= userId %>";
+    const file = new File([blob], `captured${userId}.jpg`, { type: 'image/jpeg' });
+
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('type', 'nutrition');
+
+    fetch('/nutrition', {
+      method: 'POST',
+      body: formData
+    })
+    .then(res => res.json())
+    .then(resp => {
+        const dataObj = resp.data; // dictionary object
+
+        // Pull values directly with fallback
+        const calories = dataObj.Calories ?? '—';
+        const protein  = dataObj.Protein ?? '—';
+        const carbs    = dataObj.Carbohydrates ?? '—';
+        const fats     = dataObj.Fats ?? '—';
+        const fiber    = dataObj.Fiber ?? '—';
+        const sugar    = dataObj.Sugar ?? '—';
+
+        // Use backend image URL if provided
+        const userId = "<%= userId %>";
+        const imgUrl = resp.imageUrl ?? `/images/captured${userId}.jpg`;
+
+        // Update the nutrition card
+        const container = document.getElementById('latest-nutrition-data');
+        if (container) {
+          container.innerHTML = `
+            <div class="nutrition-card">
+              <h3 class="food-title">Last Nutrition</h3>
+              <img src="${imgUrl}" alt="Food Image" class="food-img" />
+              <div class="nutrition-stats">
+                <div class="stat"><span class="label">Calories</span><span class="value">${calories}</span></div>
+                <div class="stat"><span class="label">Protein</span><span class="value">${protein}</span></div>
+                <div class="stat"><span class="label">Carbohydrates</span><span class="value">${carbs}</span></div>
+                <div class="stat"><span class="label">Fats</span><span class="value">${fats}</span></div>
+              </div>
+            </div>
+          `;
+        }
+
+        // Restore brightness on captured image (if exists in DOM)
+        if (typeof capturedImg !== 'undefined' && capturedImg) {
+          capturedImg.style.filter = 'brightness(100%)';
+        }
+    })
+    .catch(err => {
+      console.error('Image not a food:', err);
+      const container = document.getElementById('latest-nutrition-data');
+      if (container) container.innerHTML = '<p>Upload failed</p>';
+    });
+
+  }, 'image/jpeg', 0.95);
+
+  // Stop the camera immediately
+  const stream = video.srcObject;
+  if (stream) {
+    stream.getTracks().forEach(track => track.stop());
+  }
+  video.srcObject = null;
+  document.getElementById('center-container').classList.add('hidden');
+});
+
+  function setupUpload(buttonId, inputId, spinnerId, formId) {
+    const button = document.getElementById(buttonId);
+    const input = document.getElementById(inputId);
+    const spinner = document.getElementById(spinnerId);
+    const form = document.getElementById(formId);
+
+    button.addEventListener('click', () => {
+      input.click();
+    });
+
+    input.addEventListener('change', () => {
+      if (input.files.length > 0) {
+        spinner.style.display = 'block';
+        button.disabled = true;
+        form.submit();
+      }
+    });
+  }
+
+  setupUpload('nutrition-button', 'nutrition-image', 'nutrition-spinner', 'nutrition-form');
+</script>
+
+
+<%- include('../partials/footer') %>

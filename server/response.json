@@ -1,0 +1,101 @@
+{
+  "project": "RegistrationPage",
+  "structure": {
+    "backend": {
+      "directory": "server",
+      "files": [
+        {
+          "name": "app.js",
+          "description": "Main entry point for the Node.js application."
+        },
+        {
+          "name": "package.json",
+          "description": "List of dependencies and project metadata."
+        },
+        {
+          "name": "routes",
+          "description": "Directory for API route definitions.",
+          "files": [
+            {
+              "name": "userRoutes.js",
+              "description": "Routes for user registration and management."
+            }
+          ]
+        },
+        {
+          "name": "models",
+          "description": "Directory for database models.",
+          "files": [
+            {
+              "name": "User.js",
+              "description": "User model for MongoDB."
+            }
+          ]
+        },
+        {
+          "name": "config",
+          "description": "Configuration files.",
+          "files": [
+            {
+              "name": "db.js",
+              "description": "Database connection setup."
+            }
+          ]
+        },
+        {
+          "name": "controllers",
+          "description": "Directory for logic handling.",
+          "files": [
+            {
+              "name": "userController.js",
+              "description": "Controller for handling user registration logic."
+            }
+          ]
+        }
+      ]
+    },
+    "frontend": {
+      "directory": "client",
+      "files": [
+        {
+          "name": "package.json",
+          "description": "List of dependencies and project metadata for React app."
+        },
+        {
+          "name": "src",
+          "description": "Source directory for the React application.",
+          "files": [
+            {
+              "name": "index.js",
+              "description": "Main entry point for the React application."
+            },
+            {
+              "name": "App.js",
+              "description": "Main application component."
+            },
+            {
+              "name": "components",
+              "description": "Directory for reusable React components.",
+              "files": [
+                {
+                  "name": "RegistrationForm.js",
+                  "description": "Component for user registration form."
+                }
+              ]
+            },
+            {
+              "name": "services",
+              "description": "Directory for API service calls.",
+              "files": [
+                {
+                  "name": "api.js",
+                  "description": "API service for making requests to the backend."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

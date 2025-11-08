@@ -1,0 +1,90 @@
+<%- include('../partials/header') %>
+
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nutrition-container {
+    min-height: 100vh;
+    width: 100%;
+    padding: 16px 32px; /* Added horizontal padding */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Move content to the left */
+    justify-content: flex-start;
+  }
+
+  img {
+    width: 100%;
+    max-width: 450px; /* Slightly bigger image */
+    height: auto;
+    object-fit: contain;
+    margin-top: 20px;
+    margin-left: 30%; /* Shift image to the right */
+  }
+
+  table {
+    border-collapse: collapse;
+    margin-top: 40%;
+    width: 100%;
+    max-width: 500px; /* Increased table width */
+    margin-left: 25%;  /* Move table slightly right */
+  }
+
+  td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+
+  td:first-child {
+    font-size: 22px;
+    padding-right: 12px;
+  }
+
+  td:last-child {
+    font-size: 22px;
+  }
+
+  @media (min-width: 768px) {
+    td:first-child,
+    td:last-child {
+      font-size: 36px;
+    }
+
+    img {
+      margin-top: 80px;
+    }
+
+    .nutrition-container {
+      width: 80%;
+      padding-left: 60px; /* more left space on larger screens */
+    }
+
+    table {
+      margin-top: 60px;
+      width: 85%;
+      max-width: 600px;
+    }
+  }
+</style>
+
+<div class="nutrition-container">
+  <img src="<%= imageUrl %>" alt="Uploaded Meal" />
+  <table>
+    <tbody>
+      <% data.forEach(item => { %>
+        <tr>
+          <td><strong><%= item.label %></strong></td>
+          <td><%= item.value %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/footer') %>

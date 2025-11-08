@@ -1,0 +1,5 @@
+npx kill-port 3000
+docker build -t alhu22/fittrack .
+docker run -p 3000:3000 alhu22/fittrack
+
+zip -r build.zip build
