@@ -21,8 +21,6 @@ Simply **take a photo of your food**, and the AI will analyze the image to calcu
 | Backend | Node.js, Express |
 | AI / Image Analysis | Azure OpenAI API |
 | Frontend | Mobile-friendly web UI |
-| Authentication | JWT / Session-based auth |
-| Environment | `.env` for API keys and config |
 
 ---
 
